@@ -1,0 +1,5 @@
+pre-commit
+wandb
+pytest
+black
+mypy
