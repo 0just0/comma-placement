@@ -1,6 +1,6 @@
 import re
 
-space_remover = r"\s([,?.!;](?:\s|$))"
+space_remover = r"\s([,?.!:;](?:\s|$))"
 quote_space_remover = r'"\s*([^"]*?)\s*"'
 
 
@@ -27,14 +27,20 @@ def remove_short(samples: list) -> list:
     return samples
 
 
+def remove_unk(samples: list) -> list:
+    samples = [sample for sample in samples if "<unk>" not in sample]
+    return samples
+
+
 def preprocess_texts(samples: list) -> list:
     samples = remove_titles(samples)
     samples = remove_spaces(samples)
     samples = remove_empty(samples)
     samples = remove_short(samples)
+    samples = remove_unk(samples)
     return samples
 
 
-def save_to_txt(samples: list, path: str):
+def save_to_file(samples: list, path: str):
     with open(f"{path}", "w") as f:
         f.writelines([sample + "\n" for sample in samples])
