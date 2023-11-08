@@ -16,6 +16,7 @@ os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # log all model checkpoints
 
 
 training_args = training_args
+training_args.report_to = ["wandb"]
 
 print(training_args)
 

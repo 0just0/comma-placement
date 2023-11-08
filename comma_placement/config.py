@@ -1,6 +1,6 @@
 # Some constants and params for data processing, training and evaluating
-from transformers import TrainingArguments
 from peft import LoraConfig, TaskType
+from transformers import TrainingArguments
 
 RAW_DATA = "../data/raw"
 PROCESSED_DATA = "../data/processed"
@@ -22,7 +22,7 @@ num_epochs = 5
 r = 8
 alpha = 32
 
-dataset_path = f"just097/{DATASET_NAME}"  # My formatted dataset
+dataset_path = f"just097/{DATASET_NAME}"  # My formatted dataset wiki-comma-placement
 model_name = f"roberta-base-lora-comma-placement-r-{r}-alpha-{alpha}"
 checkpoints_path = f"../models/{model_name}"
 
@@ -36,7 +36,6 @@ training_args = TrainingArguments(
     fp16=True,
     evaluation_strategy="epoch",
     save_strategy="epoch",
-    report_to="wandb",
     run_name=model_name,
     logging_steps=1,
     metric_for_best_model="f1",

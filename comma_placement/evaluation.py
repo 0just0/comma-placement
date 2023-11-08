@@ -1,12 +1,23 @@
-import evaluate
-import numpy as np
-import torch
-from config import ID2LABEL, LABEL2ID, LABEL_LIST, dataset_path, training_args
+import argparse
+from pprint import pprint
+
+from config import dataset_path, training_args
 from datasets import load_dataset
 from inference import prepare_model
 from metrics import compute_metrics
 from transformers import DataCollatorForTokenClassification, Trainer
-from pprint import pprint
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--model",
+    type=str,
+    default="just097/roberta-base-lora-comma-placement-r-8-alpha-32",
+    help="Please provide a model-id on HF",
+)
+
+
+model = None
+tokenizer = None
 
 
 def tokenize_and_align_labels(examples):
@@ -31,21 +42,21 @@ def tokenize_and_align_labels(examples):
     return tokenized_inputs
 
 
-model, tokenizer = prepare_model("just097/roberta-base-lora-comma-placement-r-8-alpha-32", device="cpu")
+if __name__ == "__main__":
+    args = parser.parse_args()
+    model, tokenizer = prepare_model(args.model, device="cpu")
+    wiki_comma_placement = load_dataset(dataset_path)
+    tokenized_wiki = wiki_comma_placement.map(tokenize_and_align_labels, batched=True)
+    data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer)
 
-wiki_comma_placement = load_dataset(dataset_path)
-tokenized_wiki = wiki_comma_placement.map(tokenize_and_align_labels, batched=True)
-data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer)
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=tokenized_wiki["train"],
+        eval_dataset=tokenized_wiki["validation"],
+        tokenizer=tokenizer,
+        data_collator=data_collator,
+        compute_metrics=compute_metrics,
+    )
 
-
-trainer = Trainer(
-    model=model,
-    args=training_args,
-    train_dataset=tokenized_wiki["train"],
-    eval_dataset=tokenized_wiki["validation"],
-    tokenizer=tokenizer,
-    data_collator=data_collator,
-    compute_metrics=compute_metrics,
-)
-
-pprint(trainer.evaluate(tokenized_wiki["test"]), indent=2)
+    pprint(trainer.predict(tokenized_wiki["test"])[2], indent=2)
