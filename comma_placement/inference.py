@@ -12,9 +12,7 @@ parser.add_argument(
     default="just097/roberta-base-lora-comma-placement-finetuned",
     help="Please provide a model-id on HF",
 )
-parser.add_argument(
-    "--input", type=str, default="One two three.", help="Enter text without commas."
-)
+parser.add_argument("--input", type=str, default="One two three.", help="Enter text without commas.")
 parser.add_argument("--device", default="cpu")
 args = parser.parse_args()
 
@@ -32,7 +30,7 @@ def prepare_model(config_path: str, device: str):
         id2label=ID2LABEL,
         label2id=LABEL2ID,
     )
-    tokenizer = AutoTokenizer.from_pretrained(config.base_model_name_or_path)
+    tokenizer = AutoTokenizer.from_pretrained(config.base_model_name_or_path, add_prefix_space=True)
     model = PeftModel.from_pretrained(inference_model, peft_model_id)
     model.to(device)
     model.eval()
@@ -40,17 +38,13 @@ def prepare_model(config_path: str, device: str):
 
 
 def infer(text):
-    tokenized = tokenizer(
-        text, return_tensors="pt", return_offsets_mapping=True, return_length=True
-    )
+    tokenized = tokenizer(text, return_tensors="pt", return_offsets_mapping=True, return_length=True)
     tokenized.to(model.device)
     with torch.inference_mode():
         logits = model(tokenized["input_ids"], tokenized["attention_mask"]).logits
     tokens = tokenized.tokens()
     predictions = torch.argmax(logits, dim=2).detach().cpu()
-    labels = [
-        model.config.id2label[prediction] for prediction in predictions[0].numpy()
-    ]
+    labels = [model.config.id2label[prediction] for prediction in predictions[0].numpy()]
     return tokens, labels, tokenized["offset_mapping"][0].detach().cpu().numpy()
 
 
