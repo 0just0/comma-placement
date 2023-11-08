@@ -4,3 +4,4 @@ peft
 datasets
 evaluate
 seqeval
+spacy
