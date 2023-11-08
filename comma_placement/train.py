@@ -1,15 +1,10 @@
 import os
-import wandb
-from config import ID2LABEL, LABEL2ID, training_args, base_model, dataset_path, model_name, peft_config
+
+from config import ID2LABEL, LABEL2ID, base_model, dataset_path, model_name, peft_config, training_args
 from datasets import load_dataset
-from peft import LoraConfig, TaskType, get_peft_model
-from transformers import (
-    AutoModelForTokenClassification,
-    AutoTokenizer,
-    DataCollatorForTokenClassification,
-    Trainer,
-)
 from metrics import compute_metrics
+from peft import get_peft_model
+from transformers import AutoModelForTokenClassification, AutoTokenizer, DataCollatorForTokenClassification, Trainer
 
 os.environ["WANDB_PROJECT"] = "wiki-comma-placement"  # name your W&B project
 os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # log all model checkpoints

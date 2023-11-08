@@ -1,7 +1,7 @@
 import json
 
 import spacy
-from config import PROCESSED_DATA, RAW_DATA, DATASET_PATH, DATASET_NAME
+from config import DATASET_NAME, DATASET_PATH, PROCESSED_DATA, RAW_DATA
 from datasets import load_dataset, load_from_disk
 from sklearn.model_selection import train_test_split
 from utils import data_process
@@ -36,7 +36,7 @@ samples_train = data_process.preprocess_texts(dataset_train)
 txt_path = f"{RAW_DATA}/raw_wiki_lines.txt"
 data_process.save_to_file(samples_train, txt_path)
 
-with open(txt_path, "r") as f:
+with open(txt_path) as f:
     data = f.readlines()
 
 formatted_samples = []
@@ -52,15 +52,13 @@ json_path = f"{RAW_DATA}/wiki_data.json"
 data_process.save_to_file(formatted_samples, json_path)
 
 
-with open(json_path, "r") as f:
+with open(json_path) as f:
     data = f.readlines()
 
 train_lines, test_lines = train_test_split(data, test_size=0.16, random_state=42)
 train_lines, val_lines = train_test_split(train_lines, test_size=0.2, random_state=42)
 
-processed_paths = [
-    f"{PROCESSED_DATA}/wiki_data_{step}.json" for step in ["train, validation, test"]
-]
+processed_paths = [f"{PROCESSED_DATA}/wiki_data_{step}.json" for step in ["train, validation, test"]]
 
 for step, lines in zip(processed_paths, [train_lines, val_lines, test_lines]):
     with open(f"{step}", "w") as f:

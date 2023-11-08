@@ -3,7 +3,7 @@ from pprint import pprint
 
 from config import dataset_path, training_args
 from datasets import load_dataset
-from inference import prepare_model
+from comma_fixer import CommaFixer
 from metrics import compute_metrics
 from transformers import DataCollatorForTokenClassification, Trainer
 
@@ -44,7 +44,8 @@ def tokenize_and_align_labels(examples):
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    model, tokenizer = prepare_model(args.model, device="cpu")
+    comma_fixer = CommaFixer(args.model, device="cpu")
+    model, tokenizer = comma_fixer.model, comma_fixer.tokenizer
     wiki_comma_placement = load_dataset(dataset_path)
     tokenized_wiki = wiki_comma_placement.map(tokenize_and_align_labels, batched=True)
     data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer)
@@ -59,4 +60,5 @@ if __name__ == "__main__":
         compute_metrics=compute_metrics,
     )
 
+    print("TEST statistics:")
     pprint(trainer.predict(tokenized_wiki["test"])[2], indent=2)
