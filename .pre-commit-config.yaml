@@ -19,4 +19,4 @@ repos:
     language: script
     name: Run tests
     entry: pytest
-    stage: [commit]
+    always_run: true
