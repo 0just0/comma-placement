@@ -8,8 +8,10 @@ This repo provides the training code for LoRa RoBerta model and some handy scrip
 
 ### Install
 
-```python -m venv .venv```
-```pip install -r requirements.txt -r requirements-dev.txt```
+* Pull the repository.
+* Create a virtual env: ```python -m venv .venv```
+* Install all nessesary depsendencies: ```pip install -r requirements.txt -r requirements-dev.txt```
+* Now you are ready to use the tool.
 
 ### Use from CLI
 
