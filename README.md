@@ -29,11 +29,7 @@ This problem can be approached as a token classification task. The idea is to tr
 I am using [Wikitext](https://huggingface.co/datasets/wikitext) as a source of text data.
 Final dataset used for training can be found here - [wiki-comma-placement](https://huggingface.co/datasets/just097/wiki-comma-placement). To reproduce pre-processing steps you may run ```python comma_placement/prepare_data.py``` but all the scripts are using the one from HF.
 
-Data statistics:
-* Train - 82.6k rows
-* Validation - 20.7k rows
-* Test - 19.7k rows
-
+**Data statistics:**
 | Subset   | Num of Rows |
 |----------|-------------|
 | Train    |    82.6k    |
