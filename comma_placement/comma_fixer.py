@@ -28,6 +28,10 @@ class CommaFixer:
         model.eval()
         return model, tokenizer
 
+    def remove_commas(self, text) -> str:
+        text = text.replace(",", "")
+        return text
+
     def __infer(self, text):
         tokenized = self.tokenizer(text, return_tensors="pt", return_offsets_mapping=True, return_length=True)
         tokenized.to(self.model.device)
@@ -52,6 +56,7 @@ class CommaFixer:
         return result
 
     def fix_commas(self, text: str) -> str:
+        text = self.remove_commas(text)
         _, predictions, offset = self.__infer(text)
         res = self.__fix_commas_based_on_labels_and_offsets(predictions, text, offset)
         return res

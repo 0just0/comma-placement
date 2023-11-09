@@ -10,7 +10,7 @@ This repo provides the training code for LoRa RoBerta model and some handy scrip
 
 I have created a simple Makefile to automate every step of the pipeline.
 1. Create a venv - ```make virtualenv```
-2. Activate it :)
+2. Activate it 😊
 3. To install requirements - ```make requirements```
 4. To add necessary directories - ```make dirs```
 5. **Optional** If you want to use pre-commit -  ```make pre-commit-install```
@@ -21,6 +21,7 @@ I have created a simple Makefile to automate every step of the pipeline.
 10. To run a FastAPI server locally - ```make run-app```
 11. To build an application Docker - ```make build-docker```
 12. To run an app in Docker - ```make run-docker```
+13. To run tests - ```make run-tests```. They might fail if you don't have a running instance of a service.
 
 
 ## Manual steps with instructions:
@@ -46,6 +47,14 @@ You can either run `./run.sh` to start a FastAPI service locally or you can buil
 1. `docker build -t comma_fixer .` (It will be built to execute model on CPU by default. To change that - update `--device` param to `cuda:0`)
 2. `docker run --name comma_fixer_0 -p 8008:80 -d comma_fixer` will boot up your instance on localhost:8008
 3. Try the API at `docs/` page or make some requests from the terminal.
+4. Example:
+```
+import requests
+data = json.dumps({"input_text": "One Two three."})
+response = requests.post("http://0.0.0.0:8008/", data)
+response.json()["text_with_commas"]
+>>> One, Two, three.
+```
 
 ## Idea
 

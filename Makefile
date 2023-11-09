@@ -49,6 +49,9 @@ run-train:
 run-eval:
 	cd comma_placement; python evaluation.py
 
+run-tests:
+	python -m pytest
+
 run-app:
 	cd deploy; ./run.sh
 

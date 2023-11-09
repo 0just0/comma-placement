@@ -58,7 +58,12 @@ class CommaFixer:
                 commas_inserted += 1
         return result
 
+    def remove_commas(self, text) -> str:
+        text = text.replace(",", "")
+        return text
+
     def fix_commas(self, text: str) -> str:
+        text = self.remove_commas(text)
         _, predictions, offset = self.__infer(text)
         res = self.__fix_commas_based_on_labels_and_offsets(predictions, text, offset)
         return res
