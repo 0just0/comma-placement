@@ -6,12 +6,10 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
     "--model",
     type=str,
-    default="just097/roberta-base-lora-comma-placement-finetuned",
-    help="Please provide a model-id on HF",
+    default="just097/roberta-base-lora-comma-placement-r-16-alpha-32",
+    help="Please provide a model-id on HF or local path.",
 )
-parser.add_argument(
-    "--input", type=str, default="One two three.", help="Enter text without commas."
-)
+parser.add_argument("--input", type=str, default="One two three.", help="Enter text without commas.")
 parser.add_argument("--device", default="cpu")
 args = parser.parse_args()
 
