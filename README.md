@@ -19,6 +19,14 @@ This repo provides the training code for LoRa RoBerta model and some handy scrip
 
 ### Create a web-server
 
+`deploy/` folder contains all the nessesary components to start up a simple API server with comma_placement tool.
+
+You can either run `./run.sh` to start a FastAPI service locally or you can build a Docker image.
+**Attention!** I am using `pytorch/pytorch:2.1.0-cuda12.1-cudnn8-runtime` to support GPU inference. If you want to execute only on CPU you should probably use some lighter and more optimized base image.
+
+1. `docker build -t comma_fixer .` (It will be built to execute model on CPU by default. To change that - update `--device` param to `cuda:0`)
+2. `docker run --name comma_fixer_0 -p 8008:80 -d comma_fixer` will boot up your instance on localhost:8008
+3. Try the API at `docs/` page or make some requests from the terminal.
 
 ## Idea
 

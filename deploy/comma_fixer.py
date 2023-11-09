@@ -1,14 +1,19 @@
 import torch
-from .config import ID2LABEL, LABEL2ID
+from params import ID2LABEL, LABEL2ID
 from peft import PeftConfig, PeftModel
 from transformers import AutoModelForTokenClassification, AutoTokenizer
 import warnings
+from logger import logger as base_logger
+import time
+
+logger = base_logger.bind(corr_id="CommaFixer ")
 
 
 class CommaFixer:
     def __init__(self, config_path: str, device: str) -> None:
         self.config_path = config_path
         self.device = device
+        logger.debug(f"Loading a model from {config_path} to {device}")
         model, tokenizer = self.prepare_model(self.config_path, self.device)
         self.model = model
         self.tokenizer = tokenizer
@@ -31,11 +36,13 @@ class CommaFixer:
     def __infer(self, text):
         tokenized = self.tokenizer(text, return_tensors="pt", return_offsets_mapping=True, return_length=True)
         tokenized.to(self.model.device)
+        start = time.time()
         with torch.inference_mode():
             logits = self.model(tokenized["input_ids"], tokenized["attention_mask"]).logits
         tokens = tokenized.tokens()
         predictions = torch.argmax(logits, dim=2).detach().cpu()
         labels = [self.model.config.id2label[prediction] for prediction in predictions[0].numpy()]
+        logger.debug(f"Inference took {(time.time() - start):.3f} secs.")
         return tokens, labels, tokenized["offset_mapping"][0].detach().cpu().numpy()
 
     def __fix_commas_based_on_labels_and_offsets(

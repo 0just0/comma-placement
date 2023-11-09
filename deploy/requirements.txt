@@ -2,9 +2,6 @@ transformers
 tokenizers
 peft
 datasets
-evaluate
-seqeval
-spacy
 fastapi
 uvicorn
 loguru
