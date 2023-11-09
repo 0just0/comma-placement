@@ -161,3 +161,7 @@ cython_debug/
 .venv/
 .vscode/
 data/
+notebooks/wandb
+comma_placement/wandb
+models/
+checkpoints/
