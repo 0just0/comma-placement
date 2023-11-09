@@ -21,29 +21,21 @@ class CommaFixer:
             id2label=ID2LABEL,
             label2id=LABEL2ID,
         )
-        tokenizer = AutoTokenizer.from_pretrained(
-            config.base_model_name_or_path, add_prefix_space=True
-        )
+        tokenizer = AutoTokenizer.from_pretrained(config.base_model_name_or_path, add_prefix_space=True)
         model = PeftModel.from_pretrained(inference_model, config_path)
+        model = model.merge_and_unload()
         model.to(device)
         model.eval()
         return model, tokenizer
 
     def __infer(self, text):
-        tokenized = self.tokenizer(
-            text, return_tensors="pt", return_offsets_mapping=True, return_length=True
-        )
+        tokenized = self.tokenizer(text, return_tensors="pt", return_offsets_mapping=True, return_length=True)
         tokenized.to(self.model.device)
         with torch.inference_mode():
-            logits = self.model(
-                tokenized["input_ids"], tokenized["attention_mask"]
-            ).logits
+            logits = self.model(tokenized["input_ids"], tokenized["attention_mask"]).logits
         tokens = tokenized.tokens()
         predictions = torch.argmax(logits, dim=2).detach().cpu()
-        labels = [
-            self.model.config.id2label[prediction]
-            for prediction in predictions[0].numpy()
-        ]
+        labels = [self.model.config.id2label[prediction] for prediction in predictions[0].numpy()]
         return tokens, labels, tokenized["offset_mapping"][0].detach().cpu().numpy()
 
     def __fix_commas_based_on_labels_and_offsets(
@@ -67,8 +59,6 @@ class CommaFixer:
 
 if __name__ == "__main__":
     warnings.warn("This module shouldn't be called directy.")
-    comma_fixer = CommaFixer(
-        "just097/roberta-base-lora-comma-placement-r-8-alpha-32", "cpu"
-    )
+    comma_fixer = CommaFixer("just097/roberta-base-lora-comma-placement-r-8-alpha-32", "cpu")
     res = comma_fixer.fix_commas("One two three.")
     print(f"Formatted string with commas: {res}")

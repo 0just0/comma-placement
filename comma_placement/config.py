@@ -19,12 +19,13 @@ batch_size = 32
 num_epochs = 5
 
 # Lora
-r = 8
+r = 16
 alpha = 32
 
 dataset_path = f"just097/{DATASET_NAME}"  # My formatted dataset wiki-comma-placement
 model_name = f"roberta-base-lora-comma-placement-r-{r}-alpha-{alpha}"
-checkpoints_path = f"../models/{model_name}"
+checkpoints_path = f"../checkpoints/{model_name}"
+model_path = f"../models/{model_name}"
 
 training_args = TrainingArguments(
     checkpoints_path,
@@ -32,7 +33,7 @@ training_args = TrainingArguments(
     per_device_train_batch_size=batch_size,
     per_device_eval_batch_size=batch_size,
     num_train_epochs=num_epochs,
-    weight_decay=0.01,
+    weight_decay=1e-4,
     fp16=True,
     evaluation_strategy="epoch",
     save_strategy="epoch",

@@ -1,17 +1,26 @@
 import os
 
-from config import ID2LABEL, LABEL2ID, base_model, dataset_path, model_name, peft_config, training_args
+from config import ID2LABEL, LABEL2ID, base_model, dataset_path, model_name, model_path, peft_config, training_args
 from datasets import load_dataset
 from metrics import compute_metrics
 from peft import get_peft_model
 from transformers import AutoModelForTokenClassification, AutoTokenizer, DataCollatorForTokenClassification, Trainer
+
+import argparse
+
+parser = argparse.ArgumentParser(prog="Train a comma placement model.")
+parser.add_argument("--use_wandb", type=bool, default=True)
+parser.add_argument("--save_to_hf", type=bool, default=True)
+parser.add_argument("--device", default="cuda:0")
+args = parser.parse_args()
 
 os.environ["WANDB_PROJECT"] = "wiki-comma-placement"  # name your W&B project
 os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # log all model checkpoints
 
 
 training_args = training_args
-training_args.report_to = ["wandb"]
+if args.use_wandb:
+    training_args.report_to = ["wandb"]
 
 print(training_args)
 
@@ -51,17 +60,21 @@ model = AutoModelForTokenClassification.from_pretrained(base_model, num_labels=2
 model = get_peft_model(model, peft_config)
 model.print_trainable_parameters()
 
-trainer = Trainer(
-    model=model,
-    args=training_args,
-    train_dataset=tokenized_wiki["train"],
-    eval_dataset=tokenized_wiki["validation"],
-    tokenizer=tokenizer,
-    data_collator=data_collator,
-    compute_metrics=compute_metrics,
-)
+if __name__ == "__main__":
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=tokenized_wiki["train"],
+        eval_dataset=tokenized_wiki["validation"],
+        tokenizer=tokenizer,
+        data_collator=data_collator,
+        compute_metrics=compute_metrics,
+    )
 
-trainer.train()
-trainer.evaluate(tokenized_wiki["test"], metric_key_prefix="test")
+    trainer.train()
+    trainer.evaluate(tokenized_wiki["test"], metric_key_prefix="test")
 
-model.push_to_hub(model_name)
+    if args.save_to_hf:
+        model.push_to_hub(model_name)
+    else:
+        trainer.save_model(model_path)
