@@ -21,7 +21,7 @@ comma_fixer = None
 @app.post("/", response_model=FixedText, status_code=200)
 def fix_commas(data: InputText):
     input_text = data.input_text
-    logger.debug(f"Got the incomming text:{input_text}")
+    logger.debug(f"Got the incomming text: {input_text}")
     text_with_commas = comma_fixer.fix_commas(input_text)
     logger.debug(f"Model response: {text_with_commas}")
     return {"text_with_commas": text_with_commas, "original_text": input_text}
