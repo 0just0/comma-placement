@@ -34,7 +34,6 @@ training_args = TrainingArguments(
     per_device_eval_batch_size=batch_size,
     num_train_epochs=num_epochs,
     weight_decay=1e-4,
-    fp16=True,
     evaluation_strategy="epoch",
     save_strategy="epoch",
     run_name=model_name,
