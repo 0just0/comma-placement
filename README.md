@@ -49,7 +49,7 @@ You can either run `./run.sh` to start a FastAPI service locally or you can buil
 
 ## Idea
 
-This problem can be approached as a token classification task. The idea is to train a transformer model on some text pairs using any relevant dataset from open-source(Wikitext?), remove commas from training examples and keep them for targets.
+This problem can be approached as a token classification task. The idea is to train a transformer model on some text pairs using any relevant dataset from open-source(Wikitext?), remove commas from training examples and annotate the samples for tokens that should have a comma after them.
 
 ## Data
 
@@ -84,7 +84,7 @@ To reproduce the best experiment you should run:
 
 There are a few params that might be helpful: `--use_wandb` and `--save_to_hf`. Set them to `False` if you don't want to track the experiment or push the model to hub. In this case, logging will be done to `stdout` and after the training the best model will be saved to `models/`.
 
-All the nessesary configuration params are specified in ```comma_placement/config.py```. You might tweak them a little bit to change the dataset used to training or to use different params for LoRa or training process.
+All the necessary configuration params are specified in ```comma_placement/config.py```. You might tweak them a little bit to change the dataset used to training or to use different params for LoRa or training process.
 
 ## Evaluation
 
