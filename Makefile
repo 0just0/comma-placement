@@ -49,7 +49,7 @@ run-train:
 run-eval:
 	cd comma_placement; python evaluation.py
 
-start-app:
+run-app:
 	cd deploy; ./run.sh
 
 build-docker:
@@ -61,14 +61,6 @@ run-docker:
 #################################################################################
 # PROJECT RULES                                                                 #
 #################################################################################
-
-
-
-#################################################################################
-# Self Documenting Commands                                                     #
-#################################################################################
-
-.DEFAULT_GOAL := reproduce
 
 # Inspired by <http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html>
 # sed script explained:
