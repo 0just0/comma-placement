@@ -12,7 +12,7 @@ I have created a simple Makefile to automate every step of the pipeline.
 1. Create a venv - ```make virtualenv```
 2. Activate it :)
 3. To install requirements - ```make requirements```
-4. To add nessesary directories - ```make dirs```
+4. To add necessary directories - ```make dirs```
 5. **Optional** If you want to use pre-commit -  ```make pre-commit-install```
 6. To install spacy en_core_web_sm - ```make setup-data-prepare```
 7. To reproduce a dataset creation - ```make run-data-prepare```
@@ -29,7 +29,7 @@ I have created a simple Makefile to automate every step of the pipeline.
 
 * Pull the repository.
 * Create a virtual env: ```python -m venv .venv```
-* Install all nessesary depsendencies: ```pip install -r requirements.txt -r requirements-dev.txt```
+* Install all necessary depsendencies: ```pip install -r requirements.txt -r requirements-dev.txt```
 * Now you are ready to use the tool.
 
 ### Use from CLI
@@ -38,7 +38,7 @@ I have created a simple Makefile to automate every step of the pipeline.
 
 ### Create a web-server
 
-`deploy/` folder contains all the nessesary components to start up a simple API server with comma_placement tool.
+`deploy/` folder contains all the necessary components to start up a simple API server with comma_placement tool.
 
 You can either run `./run.sh` to start a FastAPI service locally or you can build a Docker image.
 **Attention!** I am using `pytorch/pytorch:2.1.0-cuda12.1-cudnn8-runtime` to support GPU inference. If you want to execute only on CPU you should probably use some lighter and more optimized base image.
