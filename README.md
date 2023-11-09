@@ -34,6 +34,12 @@ Data statistics:
 * Validation - 20.7k rows
 * Test - 19.7k rows
 
+| Subset   | Num of Rows |
+|----------|-------------|
+| Train    |    82.6k    |
+| Validation |  20.7k    |
+| Test     |    19.7k    |
+
 ## Modeling
 
 [Best model on HF](https://huggingface.co/just097/roberta-base-lora-comma-placement-r-16-alpha-32)
