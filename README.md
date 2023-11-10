@@ -104,7 +104,7 @@ To get the current `test` results you can run ```python comma_placement/evaluati
 
 ```--model``` param defines the model version that will be used at validation step(Set by default to the best one I managed to get).
 
-As a baseline I am using https://huggingface.co/oliverguhr/fullstop-punctuation-multilang-large as a most popular one from HF. It is trained on a different data, so performance on Wikitext is worth then provided in Model Card, even though Wikitext is a pretty general text dataset without too complicated cases for commas.
+As a baseline I am using https://huggingface.co/oliverguhr/fullstop-punctuation-multilang-large as a most popular one from HF. It is trained on a different data, so performance on Wikitext is worse then provided in Model Card, even though Wikitext is a pretty general text dataset without too complicated cases for commas.
 
 Baseline evaluation can be reproduced via notebook ```notebooks/eval_baseline.ipynb```
 
