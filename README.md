@@ -105,5 +105,5 @@ As a baseline I am using https://huggingface.co/oliverguhr/fullstop-punctuation-
 
 | Model    | precision | recall | F1   |
 |----------|-----------|--------|------|
-| baseline*| 0.79     | 0.72   | 0.75  |
+| baseline*| 0.7262    | 0.6416  | 0.6813|
 | My Model | 0.8378   | 0.8493 | 0.8435|
