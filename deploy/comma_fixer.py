@@ -37,7 +37,9 @@ class CommaFixer:
         return model, tokenizer
 
     def __infer(self, text):
-        tokenized = self.tokenizer(text, return_tensors="pt", return_offsets_mapping=True, return_length=True)
+        tokenized = self.tokenizer(
+            text, return_tensors="pt", padding=True, return_offsets_mapping=True, return_length=True
+        )
         tokenized.to(self.model.device)
         start = time.time()
         with torch.inference_mode():
