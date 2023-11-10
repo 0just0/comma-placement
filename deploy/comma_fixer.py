@@ -5,6 +5,9 @@ from transformers import AutoModelForTokenClassification, AutoTokenizer
 import warnings
 from logger import logger as base_logger
 import time
+import spacy
+
+nlp = spacy.load("en_core_web_sm")
 
 logger = base_logger.bind(corr_id="CommaFixer ")
 
@@ -62,15 +65,28 @@ class CommaFixer:
         text = text.replace(",", "")
         return text
 
+    def __split_by_sentence(self, text) -> list:
+        doc = nlp(text)
+        sentences = [str(sent) for sent in doc.sents]
+        return sentences
+
     def fix_commas(self, text: str) -> str:
+        result = []
         text = self.remove_commas(text)
-        _, predictions, offset = self.__infer(text)
-        res = self.__fix_commas_based_on_labels_and_offsets(predictions, text, offset)
-        return res
+        if len(text) > 512:
+            text = self.__split_by_sentence(text)
+        else:
+            text = [text]
+        for t in text:
+            _, predictions, offset = self.__infer(t)
+            res = self.__fix_commas_based_on_labels_and_offsets(predictions, t, offset)
+            result.append(res)
+
+        return " ".join(result)
 
 
 if __name__ == "__main__":
     warnings.warn("This module shouldn't be called directy.")
-    comma_fixer = CommaFixer("just097/roberta-base-lora-comma-placement-r-8-alpha-32", "cpu")
+    comma_fixer = CommaFixer("just097/roberta-base-lora-comma-placement-r-16-alpha-32", "cpu")
     res = comma_fixer.fix_commas("One two three.")
     print(f"Formatted string with commas: {res}")
