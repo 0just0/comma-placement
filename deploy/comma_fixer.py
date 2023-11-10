@@ -58,7 +58,7 @@ class CommaFixer:
 
         for i, label in enumerate(labels):
             current_offset = offset_map[i][1] + commas_inserted
-            if label == "B-COMMA":
+            if label == "B-COMMA" and result[current_offset].isspace():
                 result = result[:current_offset] + "," + result[current_offset:]
                 commas_inserted += 1
         return result
