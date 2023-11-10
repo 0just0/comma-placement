@@ -106,6 +106,8 @@ To get the current `test` results you can run ```python comma_placement/evaluati
 
 As a baseline I am using https://huggingface.co/oliverguhr/fullstop-punctuation-multilang-large as a most popular one from HF. It is trained on a different data, so performance on Wikitext is worth then provided in Model Card, even though Wikitext is a pretty general text dataset without too complicated cases for commas.
 
+Baseline evaluation can be reproduced via notebook ```notebooks/eval_baseline.ipynb```
+
 | Model    | precision | recall | F1   |
 |----------|-----------|--------|------|
 | baseline*| 0.7262    | 0.6416  | 0.6813|
