@@ -47,7 +47,7 @@ run-train:
 	cd comma_placement; python train.py
 
 run-eval:
-	cd comma_placement; python evaluation.py
+	python comma_placement/evaluation.py
 
 run-tests:
 	python -m pytest

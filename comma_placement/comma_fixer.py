@@ -82,9 +82,3 @@ class CommaFixer:
 
 if __name__ == "__main__":
     warnings.warn("This module shouldn't be called directy.")
-    comma_fixer = CommaFixer("just097/roberta-base-lora-comma-placement-r-8-alpha-32", "cpu")
-    test_input = """In a quaint, little town nestled between rolling hills and meandering rivers, there lived a diverse community of individuals, each with their own dreams, aspirations, and stories to tell. The townspeople, with their friendly smiles and warm greetings, created a welcoming atmosphere that embraced newcomers and made them feel like they belonged.
-As the seasons changed, the town transformed, adorned with the vibrant colors of spring flowers, the golden hues of summer sunsets, the fiery reds and oranges of autumn leaves, and the glistening white blanket of winter snow. Throughout the year, community events brought everyone together, from lively summer festivals that filled the air with music and laughter to cozy winter gatherings where the aroma of hot cocoa and freshly baked cookies wafted through the air. The heart of the town was its central square, a bustling hub where locals gathered to chat, share stories, and celebrate life's simple pleasures. The square was adorned with a majestic fountain, its cascading water providing a soothing melody that accompanied the joyful chatter of the townspeople.
-In the heart of the square stood a centuries-old oak tree, its sturdy branches stretching out like open arms, offering shade to those seeking refuge from the summer sun. Underneath its leafy canopy, friends gathered for picnics, children played games, and elders shared the wisdom of years gone by."""
-    res = comma_fixer.fix_commas(test_input)
-    print(f"Formatted string with commas: {res}")

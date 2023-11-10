@@ -1,7 +1,7 @@
 import argparse
 from pprint import pprint
 
-from config import dataset_path, training_args
+from .config import dataset_path, training_args
 from datasets import load_dataset
 from comma_fixer import CommaFixer
 from metrics import compute_metrics

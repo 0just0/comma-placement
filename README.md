@@ -19,7 +19,7 @@ I have created a simple Makefile to automate every step of the pipeline.
 8. To reproduce training - ```make run-train```
 9. To run evaluation on `test` subset - ```make run-eval```
 10. To run a FastAPI server locally - ```make run-app```
-11. To build an application Docker - ```make build-docker```
+11. To build an application Docker - ```make build-docker```. You may need to run with `sudo` on some systems.
 12. To run an app in Docker - ```make run-docker```
 13. To run tests - ```make run-tests```. They might fail if you don't have a running instance of a service.
 

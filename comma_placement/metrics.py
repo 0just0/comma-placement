@@ -1,7 +1,7 @@
 import evaluate
 import numpy as np
 import seqeval
-from .config import LABEL_LIST
+from config import LABEL_LIST
 
 seqeval = evaluate.load("seqeval")
 
