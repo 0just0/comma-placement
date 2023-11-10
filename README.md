@@ -60,7 +60,7 @@ response.json()["text_with_commas"]
 
 This problem can be approached as a token classification task. The idea is to train a transformer model on some text:tags pairs using any relevant dataset from open-source(Wikitext?), remove commas from training examples and annotate the samples for tokens that should have a comma after them.
 
-Example: ```"One two three." -> [0, 1 0, 0]```
+Example: ```"One two three." -> [0, 1, 0, 0]```
 
 ## Data
 
